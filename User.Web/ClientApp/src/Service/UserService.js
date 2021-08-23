@@ -62,16 +62,16 @@ export default function UserService() {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    Id: this.state.User.id,
-                    FirstName: this.state.User.firstName,
-                    LastName: this.state.User.lastName,
-                    Email: this.state.User.email,
-                    Gender: this.state.User.gender,
-                    Status: !!this.state.User.status
+                    Id: User.id,
+                    FirstName: User.firstName,
+                    LastName: User.lastName,
+                    Email: User.email,
+                    Gender: User.gender,
+                    Status: !!User.status
                 }),
                 ...attr
             };
-            const response = await fetch('User/' + this.state.User.id, requestOptions);
+            const response = await fetch('User/' + User.id, requestOptions);
             console.log(response);
             return response;
         } catch (error) {
