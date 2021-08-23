@@ -6,7 +6,7 @@ using System;
 
 [Route("api/[controller]")]
 [ApiController]
-public abstract class BaseController<T> : ControllerBase, IActionFilter
+public abstract class BaseController<T> : ControllerBase//, IActionFilter
 {
     protected readonly ILogger _logger;
     protected readonly IUrlHelper _urlHelper;
@@ -21,15 +21,15 @@ public abstract class BaseController<T> : ControllerBase, IActionFilter
         _urlHelper = urlHelper;
     }
 
-    public void OnActionExecuted(ActionExecutedContext context)
-    {
-        _logger.Log(LogLevel.Trace, "OnActionExecuted");
-    }
+    //public void OnActionExecuted(ActionExecutedContext context)
+    //{
+    //    _logger.Log(LogLevel.Trace, "OnActionExecuted");
+    //}
 
-    public void OnActionExecuting(ActionExecutingContext context)
-    {
-        _logger.Log(LogLevel.Trace, "OnActionExecuting");
-    }
+    //public void OnActionExecuting(ActionExecutingContext context)
+    //{
+    //    _logger.Log(LogLevel.Trace, "OnActionExecuting");
+    //}
 
 
     protected void ApplyPagination(string sort, int page, int pageSize, int totalCount)
