@@ -10,11 +10,15 @@ namespace User.Data
     {
         public UserContext CreateDbContext(string[] args)
         {
+            var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())
-                //.AddJsonFile(@Directory.GetCurrentDirectory() + "/../MyCookingMaster.API/appsettings.json")
-                .AddJsonFile("appsettings.json")
-                .Build();
+               //.AddJsonFile(@Directory.GetCurrentDirectory() + "/../MyCookingMaster.API/appsettings.json")
+              .AddJsonFile("appsettings.json", optional: false)
+              .AddJsonFile($"appsettings.{envName}.json", optional: false)
+              .Build();
+
             var builder = new DbContextOptionsBuilder<UserContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             builder.UseSqlServer(connectionString);
