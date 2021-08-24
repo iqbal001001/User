@@ -102,17 +102,9 @@ export class Users extends Component {
 		
 		console.log(filter);
 
-		if (this.state.controller)
-			this.state.controller.abort(); //cancel the previous request
+		this.setState({ UserFilter: filter });
 
-		let newController = new AbortController();
-		let signal = newController.signal;
-
-		this.setState({ UserFilter: filter, controller: newController });
-
-		
-
-		this.populateUserData(`user?sort=${this.state.sortColumn}&jsonSearchFilters=${JSON.stringify(filter)}`, signal);
+		this.populateUserData(`user?sort=${this.state.sortColumn}&jsonSearchFilters=${JSON.stringify(filter)}`);
 	}
 
 
@@ -154,7 +146,7 @@ export class Users extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{Users.map(User =>
+						{Users && Users.map(User =>
 							<tr key={User.id}>
 								<td>{User.firstName}</td>
 								<td>{User.lastName}</td>
@@ -186,11 +178,21 @@ export class Users extends Component {
 		);
 	}
 
-	async populateUserData(api, signal) {
+	async populateUserData(api) {
 		try {
+			if (this.state.controller)
+				this.state.controller.abort(); //cancel the previous request
+
+			let newController = new AbortController();
+			let signal = newController.signal;
+
+			this.setState({ controller: newController });
+
 			let { Users, pagination} = await usersrv.getUsers(api, signal);
 			this.setState({ Users, loading: false, pagination});
 		} catch (error) {
+			//if error is not cancel token
+			//this.setState({ Users: [], loading: false });
 			console.log('Fetch error: ', error);
 		}
 	}
