@@ -2,18 +2,22 @@
 
 namespace User.Data
 {
-        public class UserContextFactory 
+    public interface IDbContextFactory
     {
-            private static UserContext _context;
+        UserContext Get();
+    }
+    public class UserContextFactory : IDbContextFactory
+    {
+            private UserContext _context;
 
-            public static UserContext Get()
+            public UserContext Get()
             {
                 if (_context == null) InitialiseContext();
 
                 return _context;
             }
 
-            public  static void InitialiseContext()
+            public  void InitialiseContext()
             {
                 _context = new UserContext();
             }

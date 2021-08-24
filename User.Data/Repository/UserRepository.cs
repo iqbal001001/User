@@ -5,6 +5,6 @@ namespace User.Data.Repository
 {
     public class UserRepository : RepositoryBase<UserInfo>, IUserRepository
     {
-        public UserRepository() : base() { }
+        public UserRepository(IDbContextFactory contextFactory) : base(contextFactory) { }
     }
 }

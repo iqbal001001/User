@@ -1,16 +1,27 @@
 ﻿using User.RepositoryInterface;
 using System.Threading.Tasks;
 using System.Threading;
+using System;
 
 namespace User.Data
 {
     public class UserUnitOfWork : IUnitOfWork
     {
+        private IDbContextFactory _contextFactory;
         private UserContext _context;
 
+        public UserUnitOfWork(IDbContextFactory contextFactory)
+        {
+            if (contextFactory == null)
+            {
+                throw new ArgumentNullException("contextFactory");
+            }
+
+            _contextFactory = contextFactory;
+        }
         protected UserContext Context
         {
-            get { return _context ?? (_context = UserContextFactory.Get()); }
+            get { return _context ?? (_context = _contextFactory.Get()); }
         }
 
         public void SaveChanges()

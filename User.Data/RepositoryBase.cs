@@ -14,18 +14,25 @@ namespace User.Data
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class, IData
     {
+        private IDbContextFactory _contextFactory;
         private DbContext _context;
         private DbSet<T> _dbSet;
 
-        protected RepositoryBase()
+        protected RepositoryBase(IDbContextFactory contextFactory)
         {
+            if (contextFactory == null)
+            {
+                throw new ArgumentNullException("contextFactory");
+            }
+
+            _contextFactory = contextFactory;
             //Context.Configuration.LazyLoadingEnabled = true;
             _dbSet = Context.Set<T>();
         }
 
         protected DbContext Context
         {
-            get { return _context ?? (_context = UserContextFactory.Get()); }
+            get { return _context ?? (_context = _contextFactory.Get()); }
         }
 
         public IQueryable<T> Include<TProperty>(Expression<Func<T, TProperty>> path, Expression<Func<T, bool>> filter)
