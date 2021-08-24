@@ -18,9 +18,14 @@ export default function UserService() {
 			let pagination = JSON.parse(response.headers.get('X-Pagination'));
 			console.log(pagination);
 			const data = await response.json();
-			return { Users: data, pagination };
+            return {
+                Users: data, pagination
+            };
 		} catch (error) {
-			console.log('service Fetch error: ', error);
+            console.log('service Fetch error: ', error);
+            return {
+                Users: [], pagination: {}
+            };
 		}
 	}
 

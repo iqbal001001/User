@@ -44,6 +44,11 @@ namespace User.Web.Controllers
 
                 return Ok(result.Select(p => p.ToDto()));
             }
+            catch (TaskCanceledException ex)
+            {
+                _logger.LogError(ex.Message);
+                 return NoContent();
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
