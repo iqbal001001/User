@@ -28,7 +28,7 @@ namespace User.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IDbContextFactory, UserContextFactory>();
+            services.AddScoped<IDbContextFactory, UserContextFactory>();
             services.AddTransient<IUnitOfWork, UserUnitOfWork>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
